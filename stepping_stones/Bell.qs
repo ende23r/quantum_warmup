@@ -13,18 +13,38 @@
         }
     }
 
-	operation Bell_Test (count : Int, initial : Result) : (Int, Int, Int) {
+	/// Given two qubits in state |00>, [1 0 0 0] permute them to a given Bell State:
+	/// For index 0, [1 0 0 1]; for index 1, [1 0 0 -1]; for index 2, [0 1 1 0]; for index 3 [0 1 -1 0].
+	operation Bell_State (qs : Qubit[], index : Int) : () {
+		body {
+			if (index == 1) {
+				X(qs[0]); //Set first qubit to 1
+			}
+			elif (index == 2) {
+				X(qs[1]); //Set second qubit to 1
+			}
+			elif (index == 3) {
+				X(qs[0]); //Set first qubit to 1
+				X(qs[1]); //Set second qubit to 1
+			}
+			//if index is 0, just leave it as |00>
+
+			H(qs[0]);
+			CNOT(qs[0], qs[1]);
+		}
+	}
+
+	operation Bell_Test (count : Int, state : Int) : (Int, Int, Int) {
 		body {
 			mutable num_ones = 0;
 			mutable agree = 0;
 			using (qubits = Qubit[2]) {
 			
 				for(test in 1..count) {
-					Set(initial, qubits[0]);
+					Set(Zero, qubits[0]);
 					Set(Zero, qubits[1]);
 
-					H(qubits[0]);
-					CNOT(qubits[0], qubits[1]);
+					Bell_State(qubits, state);
 					let res = M(qubits[0]);
 
 					if( M(qubits[1]) == res ) {

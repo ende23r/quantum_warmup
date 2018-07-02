@@ -30,7 +30,7 @@ namespace Quantum.stepping_stones {
 				Set(expected, qubits[0]);
 				H(qubits[0]);
 
-				set ans = Solve(qubits[0]);
+				set ans = Plus_or_Minus(qubits[0]);
 
 				Set(Zero, qubits[0]);
 			}
