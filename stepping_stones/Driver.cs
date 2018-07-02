@@ -5,7 +5,7 @@ namespace Quantum.stepping_stones {
     class Driver {
         static void Main(string[] args) {
             using (var sim = new QuantumSimulator()) {
-                /*
+                /* B
                 // Try initial values
                 int[] possibles = new int[] { 0, 1, 2, 3 };
                 foreach (int possible in possibles) {
@@ -16,7 +16,7 @@ namespace Quantum.stepping_stones {
                 }
                 //*/
 
-                /*
+                /* D
                 Result[] tests = new Result[] { Result.Zero, Result.One };
                 foreach (Result t in tests) {
                     var res = Plus_Minus_Test.Run(sim, t).Result;
@@ -31,6 +31,7 @@ namespace Quantum.stepping_stones {
                 }
                 //*/
 
+                /* C
                 int[] possibles = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
                 foreach (int possible in possibles) {
                     var res = GHZ_Test.Run(sim, 1000, possible).Result;
@@ -38,6 +39,18 @@ namespace Quantum.stepping_stones {
                     System.Console.WriteLine(
                         $"Qubits:{possible,-4} 0s={num_zeros,-4} 1s={num_ones,-4} agree={agree,-4}");
                 }
+                */
+
+                ///* E
+                    // Try initial values
+                    int[] possibles = new int[] { 0, 1, 2, 3 };
+                    foreach (int possible in possibles) {
+                        var res = Bell_Decode_Test.Run(sim, possible).Result;
+                        
+                        System.Console.WriteLine(
+                            $"Input State:{possible, -1}, Detected State:{res, -1}");
+                    }
+                    //*/
             }
             System.Console.WriteLine("Press any key to continue...");
             System.Console.ReadKey();

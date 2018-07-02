@@ -23,6 +23,7 @@ namespace Quantum.stepping_stones {
 		}
 	}
 
+	///Testing for operation Plus_or_Minus
 	operation Plus_Minus_Test (expected : Result) : (Int) {
 		body {
 			mutable ans = 0;
@@ -37,6 +38,14 @@ namespace Quantum.stepping_stones {
 
 			//returns (integer result of measurement)
 			return (ans);
+		}
+	}
+
+	operation Pick_Basis (qs : Qubit[], bits0 : Bool[], bits1 : Bool[]) : Int {
+		body {
+			let register_len = Length(qs);
+
+			return 0;
 		}
 	}
 }

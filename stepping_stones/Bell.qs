@@ -34,6 +34,23 @@
 		}
 	}
 
+	operation Distinguish_Bell_State (qs : Qubit[]) : Int {
+		body {
+			CNOT(qs[0], qs[1]);
+			H(qs[0]);
+
+			mutable state = 0;
+			if ( M(qs[0]) == One) {
+				set state = state + 1;
+			}
+			if ( M(qs[1]) == One ) {
+				set state = state + 2;
+			}
+
+			return state;
+		}
+	}
+
 	operation Bell_Test (count : Int, state : Int) : (Int, Int, Int) {
 		body {
 			mutable num_ones = 0;
@@ -63,6 +80,21 @@
 
 			//returns (# of zeros, # of ones)
 			return (count-num_ones, num_ones, agree);
+		}
+	}
+
+	operation Bell_Decode_Test (state : Int) : (Int) {
+		body {
+			mutable ans = 0;
+			using (qubits = Qubit[2]) {
+				Bell_State(qubits, state);
+				set ans = Distinguish_Bell_State(qubits);
+
+				Set(Zero, qubits[0]);
+				Set(Zero, qubits[1]);
+			}
+
+			return ans;
 		}
 	}
 }
