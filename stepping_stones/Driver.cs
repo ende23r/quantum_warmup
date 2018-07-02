@@ -52,7 +52,7 @@ namespace Quantum.stepping_stones {
                 }
                 //*/
 
-                //* F
+                /* F
                 bool[] t11 = new bool[] { false, false, false, false };
                 bool[] t12 = new bool[] { true, true, true, true };
                 QArray<bool> hey = new QArray<bool>(t11);
@@ -64,6 +64,24 @@ namespace Quantum.stepping_stones {
                         $"Test 1-1. Expected:0, Reply:{r11, -1}\n" +
                         $"Test 1-2. Expected:1, Reply:{r12, -1}");
 
+                //*/
+
+                //* H
+                int bits1 = 5;
+                for(int ones=0; ones <= bits1; ones++) {
+                    var res = Get_Parity_Test.Run(sim, bits1, ones).Result;
+
+                    System.Console.WriteLine(
+                        $"Total Bits:{bits1} One Bits:{ones} Parity Discovered:{res}");
+                }
+
+                int bits2 = 8;
+                for (int ones = 0; ones <= bits2; ones++) {
+                    var res = Get_Parity_Test.Run(sim, bits2, ones).Result;
+
+                    System.Console.WriteLine(
+                        $"Total Bits:{bits2} One Bits:{ones} Parity Discovered:{res}");
+                }
                 //*/
             }
             System.Console.WriteLine("Press any key to continue...");
