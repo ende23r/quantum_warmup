@@ -4,21 +4,19 @@ namespace Quantum.stepping_stones {
     open Microsoft.Quantum.Canon;
 
 	///Sets y to |1> if the parity of x is odd, otherwise |0>
-	operation Get_Parity (x : Qubit[], y : Qubit) : () {
-        body {
-            let input_len = Length(x);
-
-			for (index in 0..input_len - 1) {
-				CNOT(x[index], y);
-			}
-        }
-		adjoint auto
-    }
 
 	operation Parity_Oracle (x : Qubit[], y : Qubit) : () {
 		body {
-			Get_Parity(x, y);
-			(Adjoint Get_Parity) (x, y);
+			ApplyToEachCA(H, x);
+			H(y);
+
+			let n = Length(x);
+			for(index in 0..n-1) {
+				CNOT(y, x[index]);
+			}
+
+			ApplyToEachCA(H, x);
+			H(y);
 		}
 	}
 
@@ -32,7 +30,7 @@ namespace Quantum.stepping_stones {
 				}
 
 				using (output = Qubit[1]) {
-					Get_Parity (qubits, output[0]);
+					Parity_Oracle (qubits, output[0]);
 
 					let res = M(output[0]);
 					if (res == One) { set parity = 1; }
