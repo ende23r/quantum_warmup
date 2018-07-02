@@ -41,16 +41,30 @@ namespace Quantum.stepping_stones {
                 }
                 */
 
-                ///* E
-                    // Try initial values
-                    int[] possibles = new int[] { 0, 1, 2, 3 };
-                    foreach (int possible in possibles) {
-                        var res = Bell_Decode_Test.Run(sim, possible).Result;
+                /* E
+                // Try initial values
+                int[] possibles = new int[] { 0, 1, 2, 3 };
+                foreach (int possible in possibles) {
+                    var res = Bell_Decode_Test.Run(sim, possible).Result;
                         
-                        System.Console.WriteLine(
-                            $"Input State:{possible, -1}, Detected State:{res, -1}");
-                    }
-                    //*/
+                    System.Console.WriteLine(
+                        $"Input State:{possible, -1}, Detected State:{res, -1}");
+                }
+                //*/
+
+                //* F
+                bool[] t11 = new bool[] { false, false, false, false };
+                bool[] t12 = new bool[] { true, true, true, true };
+                QArray<bool> hey = new QArray<bool>(t11);
+                QArray<bool> bud = new QArray<bool>(t12);
+
+                long r11 = Pick_Basis_Test.Run(sim, hey, bud, 0).Result;
+                long r12 = Pick_Basis_Test.Run(sim, hey, bud, 1).Result;
+                System.Console.WriteLine(
+                        $"Test 1-1. Expected:0, Reply:{r11, -1}\n" +
+                        $"Test 1-2. Expected:1, Reply:{r12, -1}");
+
+                //*/
             }
             System.Console.WriteLine("Press any key to continue...");
             System.Console.ReadKey();

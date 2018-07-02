@@ -45,7 +45,46 @@ namespace Quantum.stepping_stones {
 		body {
 			let register_len = Length(qs);
 
+			for (index in 0..register_len-1) {
+				if ( M(qs[index]) != Bool_to_Result(bits0[index]) ) {
+					return 1;
+				}
+			}
+
 			return 0;
+		}
+	}
+
+	operation Bool_to_Result (b : Bool) : Result {
+		body {
+			if(b) { return One; }
+			return Zero;
+		}
+	}
+
+	operation Pick_Basis_Test (bits0 : Bool[], bits1 : Bool[], correct : Int) : Int {
+		body {
+			let register_len = Length(bits0);
+			mutable ans = -1;
+			using(qubits = Qubit[register_len]) {
+
+				for(index in 0..register_len-1) {
+					if( correct == 0 ) {
+						Set( Bool_to_Result( bits0[index] ), qubits[index] );
+					}
+					else {
+						Set( Bool_to_Result( bits1[index] ), qubits[index] );
+					}
+				}
+
+				set ans = Pick_Basis(qubits, bits0, bits1);
+			
+				for(index in 0..register_len-1) {
+					Set(Zero, qubits[index]);
+				}
+			}
+
+			return ans;
 		}
 	}
 }
