@@ -18,20 +18,28 @@ namespace Quantum.stepping_stones {
 		}
 	}
 
-	operation GHZ_Test (count : Int, state : Int) : (Int, Int, Int) {
+	operation GHZ_Test (count : Int, nQubits : Int) : (Int, Int, Int) {
 		body {
 			mutable num_ones = 0;
 			mutable agree = 0;
-			using (qubits = Qubit[2]) {
+			using (qubits = Qubit[nQubits]) {
 			
 				for(test in 1..count) {
-					Set(Zero, qubits[0]);
-					Set(Zero, qubits[1]);
+					for(iQubit in 0..nQubits - 1) {
+						Set(Zero, qubits[iQubit]);
+					}
 
-					Bell_State(qubits, state);
+					GHZ(qubits);
 					let res = M(qubits[0]);
 
-					if( M(qubits[1]) == res ) {
+					mutable consensus = 1;
+					for(iQubit in 1..nQubits - 1) {
+						if( M(qubits[iQubit]) == res) {
+							set consensus = consensus + 1;
+						}
+					}
+
+					if(consensus == nQubits) {
 						set agree = agree + 1;
 					}
 
@@ -41,8 +49,9 @@ namespace Quantum.stepping_stones {
 					}
 				}
 
-				Set(Zero, qubits[0]);
-				Set(Zero, qubits[1]);
+				for(iQubit in 0..nQubits - 1) {
+					Set(Zero, qubits[iQubit]);
+				}
 			}
 
 			//returns (# of zeros, # of ones)
